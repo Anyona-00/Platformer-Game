@@ -2,89 +2,317 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
 :root {
-  --main-bg-color: #0a0a23;
-  --section-bg-color: #ffffff;
-  --golden-yellow: #feac32;
+  --primary-color: #4e54c8;
+  --secondary-color: #8f94fb;
+  --accent-color: #ffdd59;
+  --dark-bg: #1a1a2e;
+  --light-bg: #ffffff;
+  --text-color: #333333;
+  --player-color: #64b5f6;
+  --platform-color: #66bb6a;
+  --checkpoint-color: #ffca28;
 }
 
 body {
-  background-color: var(--main-bg-color);
+  background: linear-gradient(135deg, var(--dark-bg), #16213e);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.start-screen {
-  background-color: var(--section-bg-color);
+.game-container {
+  position: relative;
   width: 100%;
+  height: 100vh;
+}
+
+/* Start Screen */
+.start-screen {
+  background-color: var(--light-bg);
+  width: 90%;
+  max-width: 500px;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-right: -50%;
   transform: translate(-50%, -50%);
-  border-radius: 30px;
-  padding: 20px;
-  padding-bottom: 5px;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  text-align: center;
 }
 
 .main-title {
-  text-align: center;
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.character-preview {
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+}
+
+.player-avatar {
+  width: 60px;
+  height: 60px;
+  background-color: var(--player-color);
+  border-radius: 8px;
+  animation: bounce 2s infinite;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .instructions {
-  text-align: center;
-  font-size: 1.2rem;
-  margin: 15px;
-  line-height: 2rem;
+  margin: 20px 0;
+}
+
+.instructions h2 {
+  color: var(--primary-color);
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.instructions p {
+  color: var(--text-color);
+  line-height: 1.6;
+  margin-top: 15px;
+}
+
+.control-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 20px 0;
+}
+
+.control-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.key-group {
+  display: flex;
+  gap: 5px;
+}
+
+.key-box {
+  width: 40px;
+  height: 40px;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: var(--text-color);
+  box-shadow: 0 3px 0 #d1d1d1;
+}
+
+.space-key {
+  width: 100px;
+}
+
+.btn-container {
+  margin-top: 25px;
 }
 
 .btn {
   cursor: pointer;
-  width: 100px;
-  margin: 10px;
-  color: #0a0a23;
-  font-size: 18px;
-  background-color: var(--golden-yellow);
-  background-image: linear-gradient(#fecc4c, #ffac33);
-  border-color: var(--golden-yellow);
-  border-width: 3px;
+  background: linear-gradient(
+    45deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 30px;
+  box-shadow: 0 4px 10px rgba(78, 84, 200, 0.3);
+  transition: all 0.3s ease;
 }
 
 .btn:hover {
-  background-image: linear-gradient(#ffcc4c, #f89808);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(78, 84, 200, 0.4);
 }
 
-.btn-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(78, 84, 200, 0.2);
 }
 
-.checkpoint-screen {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  text-align: center;
-  background-color: var(--section-bg-color);
-  border-radius: 20px;
-  padding: 10px;
-  display: none;
-}
-
+/* Canvas */
 #canvas {
   display: none;
+  background-color: var(--dark-bg);
+  width: 100%;
+  height: 100%;
 }
 
+/* Game HUD */
+.game-hud {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: none;
+}
+
+.checkpoint-counter {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.checkpoint-counter::before {
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background-color: var(--checkpoint-color);
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+/* Checkpoint Screen */
+.checkpoint-screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  display: none;
+  animation: fadeIn 0.3s ease-out;
+  z-index: 5;
+}
+
+.checkpoint-icon {
+  width: 50px;
+  height: 50px;
+  background-color: var(--checkpoint-color);
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.checkpoint-screen p {
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+/* Victory Screen */
+.victory-screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--light-bg);
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: none;
+  z-index: 10;
+  width: 90%;
+  max-width: 400px;
+}
+
+.victory-screen h2 {
+  color: var(--primary-color);
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.stats {
+  margin: 25px 0;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.stat-label {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.stat-value {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
 @media (min-width: 768px) {
-  .start-screen {
-    width: 60%;
-    max-width: 700px;
+  .start-screen,
+  .victory-screen {
+    padding: 40px;
   }
 
-  .checkpoint-screen {
-    max-width: 300px;
+  .main-title {
+    font-size: 3rem;
+  }
+
+  .player-avatar {
+    width: 80px;
+    height: 80px;
   }
 }

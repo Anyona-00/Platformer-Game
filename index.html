@@ -2,34 +2,77 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Platformer Game</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <title>Pixel Adventure</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div class="start-screen">
-      <h1 class="main-title">Warrior</h1>
-      <p class="instructions">
-        Help the main player navigate to the yellow checkpoints.
-      </p>
-      <p class="instructions">
-        Use the keyboard arrows to move the player around.
-      </p>
-      <p class="instructions">You can also use the spacebar to jump.</p>
+    <div class="game-container">
+      <!-- Start Screen -->
+      <div class="start-screen">
+        <h1 class="main-title">Pixel Adventure</h1>
+        <div class="character-preview">
+          <div class="player-avatar"></div>
+        </div>
+        <div class="instructions">
+          <h2>How to Play</h2>
+          <div class="control-container">
+            <div class="control-item">
+              <div class="key-group">
+                <div class="key-box">←</div>
+                <div class="key-box">→</div>
+              </div>
+              <span>Move</span>
+            </div>
+            <div class="control-item">
+              <div class="key-box space-key">Space</div>
+              <span>Jump</span>
+            </div>
+          </div>
+          <p>Collect all the gold checkpoints to complete the level!</p>
+        </div>
+        <div class="btn-container">
+          <button id="start-btn" class="btn">Play Now</button>
+        </div>
+      </div>
 
-      <div class="btn-container">
-        <button class="btn" id="start-btn">Start Game</button>
+      <!-- Game Canvas -->
+      <canvas id="canvas"></canvas>
+
+      <!-- HUD Elements -->
+      <div class="game-hud">
+        <div class="checkpoint-counter">
+          <span id="collected-checkpoints">0</span>/<span id="total-checkpoints"
+            >3</span
+          >
+        </div>
+      </div>
+
+      <!-- Checkpoint Notification -->
+      <div class="checkpoint-screen">
+        <div class="checkpoint-icon"></div>
+        <p>Checkpoint reached!</p>
+      </div>
+
+      <!-- Victory Screen -->
+      <div class="victory-screen">
+        <h2>Level Complete!</h2>
+        <p>You collected all checkpoints!</p>
+        <div class="stats">
+          <div class="stat-item">
+            <span class="stat-label">Checkpoints</span>
+            <span class="stat-value">3/3</span>
+          </div>
+        </div>
+        <button id="restart-btn" class="btn">Play Again</button>
       </div>
     </div>
-
-    <div class="checkpoint-screen">
-      <h2>Congrats!</h2>
-      <p>You reached the last checkpoint.</p>
-    </div>
-
-    <canvas id="canvas"></canvas>
-
-    <script src="./script.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
